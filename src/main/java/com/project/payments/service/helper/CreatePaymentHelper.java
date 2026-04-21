@@ -69,11 +69,10 @@ log.info("Prepared form URL encoded data for Stripe create-session API: {}", for
                
                 String baseKey = "line_items[" + i + "]";
 
-                // IMPORTANT: Wrap numeric values in String.valueOf()
-                formUrlEncodedData.add(baseKey + "[quantity]", String.valueOf(item.getQuantity()));
-                formUrlEncodedData.add(baseKey + "[price_data][currency]", item.getCurrency());
-                formUrlEncodedData.add(baseKey + "[price_data][unit_amount]", String.valueOf(item.getUnitAmount()));
-                formUrlEncodedData.add(baseKey + "[price_data][product_data][name]", item.getProductName());
+                formUrlEncodedData.add(baseKey + Constant.OPEN_BRACKET + Constant.QUANTITY + Constant.CLOSE_BRACKET, String.valueOf(item.getQuantity()));
+                formUrlEncodedData.add(baseKey + Constant.OPEN_BRACKET + Constant.PRICE_DATA + Constant.CLOSE_BRACKET + Constant.OPEN_BRACKET + Constant.CURRENCY + Constant.CLOSE_BRACKET, item.getCurrency());
+                formUrlEncodedData.add(baseKey + Constant.OPEN_BRACKET + Constant.PRICE_DATA + Constant.CLOSE_BRACKET + Constant.OPEN_BRACKET + Constant.UNIT_AMOUNT + Constant.CLOSE_BRACKET, String.valueOf(item.getUnitAmount()));
+                formUrlEncodedData.add(baseKey + Constant.OPEN_BRACKET + Constant.PRICE_DATA + Constant.CLOSE_BRACKET + Constant.OPEN_BRACKET + Constant.PRODUCT_DATA + Constant.CLOSE_BRACKET + Constant.OPEN_BRACKET + Constant.NAME + Constant.CLOSE_BRACKET, item.getProductName());
             }
         }
 
