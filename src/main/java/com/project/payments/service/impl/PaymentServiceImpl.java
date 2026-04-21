@@ -1,11 +1,13 @@
 package com.project.payments.service.impl;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import com.project.payments.http.HttpRequest;
 import com.project.payments.http.HttpServiceEngine;
+import com.project.payments.pojo.CreatePaymentReq; // Add this import
 import com.project.payments.service.helper.CreatePaymentHelper;
 import com.project.payments.service.interfaces.PaymentService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,13 +19,12 @@ public class PaymentServiceImpl implements PaymentService {
     private final HttpServiceEngine httpServiceEngine;
     private final CreatePaymentHelper createPaymentHelper;
 
-   
-
     @Override
-    public String createPayment() {
-        log.info("Processing payment creation logic...");
+    public String createPayment(CreatePaymentReq createPaymentReq) { 
+        log.info("Processing payment creation logic...createPaymentReq: {}", createPaymentReq);
 
-        HttpRequest httpRequest = createPaymentHelper.prepareStripeCreatedSessionRequest();
+        // FIX: Pass the object to the helper
+        HttpRequest httpRequest = createPaymentHelper.prepareStripeCreatedSessionRequest(createPaymentReq);
 
         return httpServiceEngine.makeHttpCall(httpRequest); 
     }

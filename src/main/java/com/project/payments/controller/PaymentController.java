@@ -4,10 +4,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.project.payments.pojo.CreatePaymentReq;
 import com.project.payments.service.interfaces.PaymentService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,14 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class PaymentController {
-	private final PaymentService paymentService;
-	
-	@PostMapping
-	public String createPayment(@RequestBody CreatePaymentReq createPaymentReq) {
-	    log.info("Creating payment...createPaymentReq: {}", createPaymentReq);
-	    String response = paymentService.createPayment();
-	    log.info("Payment creation response: {}", response);
-	    return "Payment created successfully!\nResponse : " + response;
-	}
-
+    private final PaymentService paymentService;
+    
+    @PostMapping
+    public String createPayment(@RequestBody CreatePaymentReq createPaymentReq) {
+        log.info("Creating payment...createPaymentReq: {}", createPaymentReq);
+        // FIX: Pass the object here
+        String response = paymentService.createPayment(createPaymentReq); 
+        log.info("Payment creation response: {}", response);
+        return "Payment created successfully! Response : " + response
+                + "\n createPaymentReq : " + createPaymentReq;
+    }
 }

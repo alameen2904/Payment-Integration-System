@@ -8,5 +8,9 @@ public class Constant {
 
 	 public static final String CREATE_SESSION_SUCCESS_URL = "success_url";
 
+	 public static final String CREATE_SESSION_CANCEL_URL = "cancel_url";
+
+	 public static final String CREATE_SESSION_MODE_PAYMENT = "payment";
+
 
 }
