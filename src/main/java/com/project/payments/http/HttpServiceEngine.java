@@ -14,7 +14,7 @@ public class HttpServiceEngine {
 
     private final RestClient restClient;
 
-    public String makeHttpCall(HttpRequest httpRequest) {
+    public ResponseEntity<String> makeHttpCall(HttpRequest httpRequest) {
         log.info("Executing HTTP {} request to {}", httpRequest.getHttpMethod(), httpRequest.getUrl());
 
         ResponseEntity<String> httpResponse = restClient.method(httpRequest.getHttpMethod())
@@ -26,7 +26,7 @@ public class HttpServiceEngine {
 
         log.info("HTTP call completed with status: {}", httpResponse.getStatusCode());
 
-        return httpResponse.getBody();
+        return httpResponse;
     }
 
     @PostConstruct

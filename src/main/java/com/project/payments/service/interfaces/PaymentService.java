@@ -1,8 +1,9 @@
 package com.project.payments.service.interfaces;
 
 import com.project.payments.pojo.CreatePaymentReq;
+import com.project.payments.pojo.PaymentResponse;
 
 public interface PaymentService {
 
-    public String createPayment(CreatePaymentReq createPaymentReq);
+    public PaymentResponse createPayment(CreatePaymentReq createPaymentReq);
 }
