@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import com.project.payments.constant.Constant;
 import com.project.payments.http.HttpRequest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class CreatePaymentHelper {
+	
 	
 	
 	 @Value("${stripe.api.key}")
@@ -31,8 +33,8 @@ public class CreatePaymentHelper {
         MultiValueMap<String, String> formUrlEncodedData = new LinkedMultiValueMap<>();
         formUrlEncodedData.add("line_items[0][price_data][currency]", "EUR");
         formUrlEncodedData.add("line_items[0][quantity]", "2");
-        formUrlEncodedData.add("mode", "payment");
-        formUrlEncodedData.add("success_url", "https://example.com/success");
+        formUrlEncodedData.add(Constant.CREATE_SESSION_MODE, "payment");
+        formUrlEncodedData.add(Constant.CREATE_SESSION_SUCCESS_URL, "https://example.com/success");
         formUrlEncodedData.add("line_items[0][price_data][product_data][name]", "Phone xxx");
         formUrlEncodedData.add("line_items[0][price_data][unit_amount]", "100");
 
