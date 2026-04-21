@@ -32,7 +32,7 @@ public class CreatePaymentHelper {
         httpHeaders.setBasicAuth(stripeApiKey, ""); 
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        // Call the dynamic mapping method
+        
         MultiValueMap<String, String> formUrlEncodedData = prepareFormUrlEncodedData(createPaymentReq);
 log.info("Prepared form URL encoded data for Stripe create-session API: {}", formUrlEncodedData);
         HttpRequest httpRequest = new HttpRequest();
@@ -49,7 +49,7 @@ log.info("Prepared form URL encoded data for Stripe create-session API: {}", for
 
         MultiValueMap<String, String> formUrlEncodedData = new LinkedMultiValueMap<>();
 
-        // Mandatory fields
+        
         formUrlEncodedData.add(Constant.CREATE_SESSION_MODE, 
     			Constant.CREATE_SESSION_MODE_PAYMENT);
         
@@ -59,7 +59,7 @@ log.info("Prepared form URL encoded data for Stripe create-session API: {}", for
         formUrlEncodedData.add(Constant.CREATE_SESSION_CANCEL_URL, 
         		request.getCancelUrl());
 
-        // Line items
+        
         if (request.getLineItems() != null && !request.getLineItems().isEmpty()) {
 
             for (int i = 0; i < request.getLineItems().size(); i++) {

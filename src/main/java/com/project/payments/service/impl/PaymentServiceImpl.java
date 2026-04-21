@@ -1,8 +1,10 @@
 package com.project.payments.service.impl;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.payments.exception.StripeProviderException;
 import com.project.payments.http.HttpRequest;
 import com.project.payments.http.HttpServiceEngine;
 import com.project.payments.pojo.CreatePaymentReq; // Add this import
@@ -28,7 +30,14 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse createPayment(CreatePaymentReq createPaymentReq) { 
         log.info("Processing payment creation logic...createPaymentReq: {}", createPaymentReq);
 
-        // FIX: Pass the object to the helper
+        if(createPaymentReq.getSuccessUrl() == null||createPaymentReq.getSuccessUrl() == null) {
+			log.warn("Success URL is null in createPaymentReq");
+			throw new StripeProviderException(
+					"30001",
+					"Success URL is required for creating a payment session",
+					HttpStatus.BAD_REQUEST
+					); 
+			}
         HttpRequest httpRequest = createPaymentHelper.prepareStripeCreatedSessionRequest(createPaymentReq);
 
         ResponseEntity<String>httpResponse = httpServiceEngine.makeHttpCall(httpRequest);

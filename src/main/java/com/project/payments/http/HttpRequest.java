@@ -7,9 +7,9 @@ import lombok.Data;
 
 @Data
 public class HttpRequest {
-    
-    private String url;
-    private HttpMethod httpMethod;
-    private HttpHeaders httpHeaders;
-    private Object requestData;
+
+	private String url;
+	private HttpMethod httpMethod;
+	private HttpHeaders httpHeaders;
+	private Object requestData;
 }
