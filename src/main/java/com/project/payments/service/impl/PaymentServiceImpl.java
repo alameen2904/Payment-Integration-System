@@ -9,6 +9,7 @@ import com.project.payments.http.HttpRequest;
 import com.project.payments.http.HttpServiceEngine;
 import com.project.payments.pojo.CreatePaymentReq; // Add this import
 import com.project.payments.pojo.PaymentResponse;
+import com.project.payments.service.ValidationService;
 import com.project.payments.service.helper.CreatePaymentHelper;
 import com.project.payments.service.interfaces.PaymentService;
 import com.project.payments.stripe.CheckoutSessionResponse;
@@ -25,19 +26,15 @@ public class PaymentServiceImpl implements PaymentService {
     private final HttpServiceEngine httpServiceEngine;
     private final CreatePaymentHelper createPaymentHelper;
     private final JsonUtil jsonUtil;
+    private final ValidationService validationService;
 
     @Override
     public PaymentResponse createPayment(CreatePaymentReq createPaymentReq) { 
         log.info("Processing payment creation logic...createPaymentReq: {}", createPaymentReq);
 
-        if(createPaymentReq.getSuccessUrl() == null||createPaymentReq.getSuccessUrl() == null) {
-			log.warn("Success URL is null in createPaymentReq");
-			throw new StripeProviderException(
-					"30001",
-					"Success URL is required for creating a payment session",
-					HttpStatus.BAD_REQUEST
-					); 
-			}
+        // Validate request using ValidationService
+        validationService.isValid(createPaymentReq);
+
         HttpRequest httpRequest = createPaymentHelper.prepareStripeCreatedSessionRequest(createPaymentReq);
 
         ResponseEntity<String>httpResponse = httpServiceEngine.makeHttpCall(httpRequest);
