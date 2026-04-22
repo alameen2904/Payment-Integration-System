@@ -25,16 +25,17 @@ public class CreatePaymentHelper {
     @Value("${stripe.create.session.url}")
     private String stripeCreateSessionUrl;
 
-    public HttpRequest prepareStripeCreatedSessionRequest(CreatePaymentReq createPaymentReq) {
+    // FIX: Removed the 'd' from "Created" to match the Service call
+    public HttpRequest prepareStripeCreateSessionRequest(CreatePaymentReq createPaymentReq) {
         log.info("Preparing Stripe request with dynamic data...");
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBasicAuth(stripeApiKey, ""); 
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        
         MultiValueMap<String, String> formUrlEncodedData = prepareFormUrlEncodedData(createPaymentReq);
-log.info("Prepared form URL encoded data for Stripe create-session API: {}", formUrlEncodedData);
+        log.info("Prepared form URL encoded data for Stripe create-session API: {}", formUrlEncodedData);
+        
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.setUrl(stripeCreateSessionUrl);
         httpRequest.setHttpMethod(HttpMethod.POST);
@@ -42,31 +43,24 @@ log.info("Prepared form URL encoded data for Stripe create-session API: {}", for
         httpRequest.setRequestData(formUrlEncodedData);
 
         log.info("Prepared HttpRequest for Stripe create-session API: {}", httpRequest);
-		return httpRequest;
-	}
+        return httpRequest;
+    }
 
     public static MultiValueMap<String, String> prepareFormUrlEncodedData(CreatePaymentReq request) {
-
         MultiValueMap<String, String> formUrlEncodedData = new LinkedMultiValueMap<>();
 
-        
         formUrlEncodedData.add(Constant.CREATE_SESSION_MODE, 
-    			Constant.CREATE_SESSION_MODE_PAYMENT);
+                Constant.CREATE_SESSION_MODE_PAYMENT);
         
         formUrlEncodedData.add(Constant.CREATE_SESSION_SUCCESS_URL, 
-        		request.getSuccessUrl());
+                request.getSuccessUrl());
         
         formUrlEncodedData.add(Constant.CREATE_SESSION_CANCEL_URL, 
-        		request.getCancelUrl());
+                request.getCancelUrl());
 
-        
         if (request.getLineItems() != null && !request.getLineItems().isEmpty()) {
-
             for (int i = 0; i < request.getLineItems().size(); i++) {
-
                 LineItem item = request.getLineItems().get(i);
-
-               
                 String baseKey = "line_items[" + i + "]";
 
                 formUrlEncodedData.add(baseKey + Constant.OPEN_BRACKET + Constant.QUANTITY + Constant.CLOSE_BRACKET, String.valueOf(item.getQuantity()));
@@ -75,7 +69,6 @@ log.info("Prepared form URL encoded data for Stripe create-session API: {}", for
                 formUrlEncodedData.add(baseKey + Constant.OPEN_BRACKET + Constant.PRICE_DATA + Constant.CLOSE_BRACKET + Constant.OPEN_BRACKET + Constant.PRODUCT_DATA + Constant.CLOSE_BRACKET + Constant.OPEN_BRACKET + Constant.NAME + Constant.CLOSE_BRACKET, item.getProductName());
             }
         }
-
         return formUrlEncodedData;
     }
 }

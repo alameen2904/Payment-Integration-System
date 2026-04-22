@@ -1,8 +1,15 @@
 package com.project.payments.http;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClient;
+
+import com.project.payments.constant.ErrorCodeEnum;
+import com.project.payments.exception.StripeProviderException;
+
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,25 +19,66 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class HttpServiceEngine {
 
-    private final RestClient restClient;
+	private final RestClient restClient;
 
-    public ResponseEntity<String> makeHttpCall(HttpRequest httpRequest) {
-        log.info("Executing HTTP {} request to {}", httpRequest.getHttpMethod(), httpRequest.getUrl());
+	public ResponseEntity<String> makeHttpCall(HttpRequest httpRequest) {
+		log.info("Making HTTP call to external service...");
 
-        ResponseEntity<String> httpResponse = restClient.method(httpRequest.getHttpMethod())
-                .uri(httpRequest.getUrl())
-                .headers(headers -> headers.addAll(httpRequest.getHttpHeaders()))
-                .body(httpRequest.getRequestData())
-                .retrieve()
-                .toEntity(String.class);
+		try {
+			ResponseEntity<String> httpResponse = restClient
+					.method(httpRequest.getHttpMethod())
+					.uri(httpRequest.getUrl())
+					.headers(
+							restClientHeaders -> restClientHeaders.addAll(
+									httpRequest.getHttpHeaders()))
+					.body(httpRequest.getRequestData())
+					.retrieve()
+					.toEntity(String.class);
 
-        log.info("HTTP call completed with status: {}", httpResponse.getStatusCode());
+			log.info("HTTP call completed. Status code: {}, Response body: {}", 
+					httpResponse.getStatusCode(), httpResponse.getBody());
 
-        return httpResponse;
-    }
+			return httpResponse;
+		} catch (HttpClientErrorException | HttpServerErrorException ex) {
+			
+			
+			log.error("HTTP error occurred while making HTTP call: Status code: {}, Response body: {}", 
+					ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
+			
+			
+			if (ex.getStatusCode() == HttpStatus.SERVICE_UNAVAILABLE || 
+					ex.getStatusCode() == HttpStatus.GATEWAY_TIMEOUT) {
+				log.error("Stripe service is unavailable. Status code: {}, Response body: {}", 
+						ex.getStatusCode(), ex.getResponseBodyAsString());
+				
+				throw new StripeProviderException(
+						ErrorCodeEnum.ERROR_CONNECTING_TO_EXTERNAL_SERVICE.getErrorCode(),
+						ErrorCodeEnum.ERROR_CONNECTING_TO_EXTERNAL_SERVICE.getErrorMessage(),
+						HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			
+			
+			ResponseEntity<String> errorResponse = ResponseEntity
+					.status(ex.getStatusCode())
+					.body(ex.getResponseBodyAsString());
+			
+			return errorResponse; 
+		} catch (Exception ex) {
+			
+			
+			log.error("Error occurred while making HTTP call: ", ex);
+			
+			throw new StripeProviderException(
+					ErrorCodeEnum.ERROR_CONNECTING_TO_EXTERNAL_SERVICE.getErrorCode(),
+					ErrorCodeEnum.ERROR_CONNECTING_TO_EXTERNAL_SERVICE.getErrorMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
-    @PostConstruct
-    public void init() {
-        log.info("HttpServiceEngine initialized with RestClient: {}", restClient);
-    }
+	@PostConstruct
+	public void init() {
+		log.info("Initializing HttpServiceEngine... restClient: {}", restClient);
+	}
+
 }

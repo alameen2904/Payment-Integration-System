@@ -30,8 +30,9 @@ public enum ErrorCodeEnum {
 	MISSING_STRIPE_SIGNATURE_OR_EMPTY_REQUEST(
 			"30015", "Missing Stripe-Signature header or empty request body"),
 	STRIPE_SIGNATURE_VERIFICATION_ERROR(
-			"30016", "Stripe signature verification failed");
-
+			"30016", "Stripe signature verification failed"),
+	STRIPE_NO_RESPONSE("30017", "No response received from Stripe"),
+	STRIPE_CONVERSION_FAILED("30018", "Stripe response conversion failed");
 	private final String errorCode;
 	private final String errorMessage;
 
