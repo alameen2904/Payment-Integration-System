@@ -4,7 +4,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.project.payments.pojo.PaymentRequestV2;
+import com.project.payments.pojo.PaymentRequest;
+import com.project.payments.service.interfaces.PaymentService;
+
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,9 +15,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PaymentController {
 
+    private final PaymentService paymentService;
+
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
     @PostMapping
-    public String createPayment(@Valid @RequestBody PaymentRequestV2 paymentRequest) {
-        log.info("Creating payment...paymentRequest: {}", paymentRequest);
-        return "Payment created successfully!\n + paymentRequest: " + paymentRequest;
+    public String createPayment(@Valid @RequestBody PaymentRequest paymentRequest) {
+        log.info("Received request at controller level: {}", paymentRequest);
+        String serviceResponse = paymentService.validateAndCreatePayment(paymentRequest);
+		return serviceResponse;
     }
 }
