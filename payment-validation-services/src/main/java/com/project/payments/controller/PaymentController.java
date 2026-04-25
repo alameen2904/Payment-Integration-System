@@ -15,16 +15,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PaymentController {
 
-    private final PaymentService paymentService;
+	private final PaymentService paymentService;
 
-    public PaymentController(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
+	public PaymentController(PaymentService paymentService) {
+		this.paymentService = paymentService;
+	}
 
-    @PostMapping
-    public String createPayment(@Valid @RequestBody PaymentRequest paymentRequest) {
-        log.info("Received request at controller level: {}", paymentRequest);
-        String serviceResponse = paymentService.validateAndCreatePayment(paymentRequest);
+	@PostMapping
+	public String createPayment(@Valid @RequestBody PaymentRequest paymentRequest) {
+		log.info("Received request at controller level: {}", paymentRequest);
+		String serviceResponse = paymentService.validateAndCreatePayment(paymentRequest);
 		return serviceResponse;
-    }
+	}
 }

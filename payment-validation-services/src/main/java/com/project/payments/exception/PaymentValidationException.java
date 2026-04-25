@@ -11,22 +11,22 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class PaymentValidationException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private String errorCode;
-    private String errorMessage;
-    private HttpStatus httpStatus;
+	private String errorCode;
+	private String errorMessage;
+	private HttpStatus httpStatus;
 
-    public PaymentValidationException(
-    		String errorCode, 
-    		String errorMessage, 
-    		HttpStatus httpStatus) {
-    	
-        super(errorMessage);
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-        this.httpStatus = httpStatus;
-    }
+	public PaymentValidationException(
+			String errorCode, 
+			String errorMessage, 
+			HttpStatus httpStatus) {
+
+		super(errorMessage);
+		this.errorCode = errorCode;
+		this.errorMessage = errorMessage;
+		this.httpStatus = httpStatus;
+	}
 
 
 }

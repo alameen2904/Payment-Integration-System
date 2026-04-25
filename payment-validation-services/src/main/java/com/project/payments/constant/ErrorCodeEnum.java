@@ -44,12 +44,24 @@ public enum ErrorCodeEnum {
 	UNIT_AMOUNT_INVALID("10036", "unitAmount must be greater than 0"),
 	QUANTITY_NULL("10037", "quantity must not be null"),
 	QUANTITY_INVALID("10038", "quantity must be greater than 0"),
-	FIRSTNAME_CONTAINS_HELLO("10039", "firstname must not contain the word 'hello'");
+	FIRSTNAME_CONTAINS_HELLO("10039", "firstname must not contain the word 'hello'"), 
+	FAILED_TO_SAVE_PAYMENT_REQUEST("10040", "Failed to save merchant payment request"), 
+	DUPLICATE_TRANSACTION("10041", "Duplicate transaction detected with the same endUserID and merchantTxnReference");
+
+
 	private final String errorCode;
 	private final String errorMessage;
 
 	ErrorCodeEnum(String errorCode, String errorMessage) {
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
+	}
+
+	public String getErrorCode() {
+		return errorCode;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 }
