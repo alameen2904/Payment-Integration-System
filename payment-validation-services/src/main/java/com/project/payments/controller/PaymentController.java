@@ -2,8 +2,10 @@ package com.project.payments.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.project.payments.pojo.PaymentRequest;
 import com.project.payments.service.interfaces.PaymentService;
 
@@ -22,9 +24,12 @@ public class PaymentController {
 	}
 
 	@PostMapping
-	public String createPayment(@Valid @RequestBody PaymentRequest paymentRequest) {
+	public String createPayment(
+			@Valid @RequestBody
+			PaymentRequest paymentRequest,@RequestHeader(value="Hmac-Signature", required=false) String hmacSignature) {
 		log.info("Received request at controller level: {}", paymentRequest);
-		String serviceResponse = paymentService.validateAndCreatePayment(paymentRequest);
+		log.info("Received HMAC Signature: {}",hmacSignature);
+		String serviceResponse = paymentService.validateAndCreatePayment(paymentRequest,hmacSignature);
 		return serviceResponse;
 	}
 }

@@ -46,7 +46,11 @@ public enum ErrorCodeEnum {
 	QUANTITY_INVALID("10038", "quantity must be greater than 0"),
 	FIRSTNAME_CONTAINS_HELLO("10039", "firstname must not contain the word 'hello'"), 
 	FAILED_TO_SAVE_PAYMENT_REQUEST("10040", "Failed to save merchant payment request"), 
-	DUPLICATE_TRANSACTION("10041", "Duplicate transaction detected with the same endUserID and merchantTxnReference");
+	DUPLICATE_TRANSACTION("10041", "Duplicate transaction detected with the same endUserID and merchantTxnReference"),
+	MISSING_HMAC("10042", "Missing HMAC signature in request header"),
+	HMAC_COMPUTATION_ERROR("10043", "Error computing HMAC-SHA256 signature"), 
+	INVALID_HMAC("10044", "Invalid HMAC signature in request header");
+	
 
 
 	private final String errorCode;

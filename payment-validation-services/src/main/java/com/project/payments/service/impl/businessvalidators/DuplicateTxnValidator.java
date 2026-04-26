@@ -34,8 +34,7 @@ public class DuplicateTxnValidator implements BusinessValidator {
 		entity.setTransactionRequest(jsonUtil.convertObjectToJson(paymentRequest));
 
 
-		int pkId = repository.saveMerchantPaymentRequest(entity); //TODO for testing spring security, we commented temporary. 
-
+		int pkId = repository.saveMerchantPaymentRequest(entity); 
 
 		log.info("Repository returned primary key id: {}", pkId);
 

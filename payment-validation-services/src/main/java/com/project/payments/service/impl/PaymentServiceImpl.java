@@ -4,12 +4,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.project.payments.constant.ErrorCodeEnum;
 import com.project.payments.constant.ValidatorRuleEnum;
+import com.project.payments.exception.PaymentValidationException;
 import com.project.payments.pojo.PaymentRequest;
+import com.project.payments.service.HmacSha256Service;
 import com.project.payments.service.interfaces.BusinessValidator;
 import com.project.payments.service.interfaces.PaymentService;
+import com.project.payments.util.JsonUtil;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +30,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final ApplicationContext applicationContext;
 
+    private final HmacSha256Service hmacSha256Service;
+    private final JsonUtil jsonUtil;
     @Override
-    public String validateAndCreatePayment(PaymentRequest paymentRequest) {
-        log.info("Starting business validation process for request...");
+    public String validateAndCreatePayment(PaymentRequest paymentRequest, String headerHmacSignature) {
         
-        if (validatorRuleNames == null || validatorRuleNames.isEmpty()) {
-            log.warn("No business validation rules defined in properties.");
-            return "Payment created with no business rules applied.";
-        }
+    	log.info("validating and creating payment: {}|hmacSignature:{}", paymentRequest,headerHmacSignature);
+       String calculatedHmac = hmacSha256Service.isHmacSignatureValid(paymentRequest, headerHmacSignature);
+       log.error("HMAC signature mismatch. Calculated: {}, Received:{}", calculatedHmac, headerHmacSignature);
+ 	  
 
         String[] rules = validatorRuleNames.split(",");
         
@@ -61,6 +67,8 @@ public class PaymentServiceImpl implements PaymentService {
         
         return "From Service Payment created successfully! " + paymentRequest;
     }
+
+	
 
     @PostConstruct
     public void init() {
