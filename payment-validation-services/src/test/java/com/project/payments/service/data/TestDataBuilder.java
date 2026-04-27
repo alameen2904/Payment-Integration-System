@@ -13,8 +13,8 @@ public class TestDataBuilder {
 
         // Create User
         User user = new User();
-        user.setEndUserID("user123123"); // Matched with JSON
-        user.setFirstname("John hello"); // Matched
+        user.setEndUserID("user123123"); 
+        user.setFirstname("John hello"); 
         user.setLastname("Doe");
         user.setEmail("john.doe@example.com");
         user.setMobilePhone("+1234567890");
@@ -22,16 +22,16 @@ public class TestDataBuilder {
         // Line Item 1
         LineItem item1 = new LineItem();
         item1.setCurrency("EUR");
-        item1.setProductName("Phone"); // Matched
-        item1.setUnitAmount(200); // Matched (previously 2000000)
+        item1.setProductName("Phone"); 
+        item1.setUnitAmount(200); 
         item1.setQuantity(1);
 
         // Line Item 2
         LineItem item2 = new LineItem();
         item2.setCurrency("EUR");
-        item2.setProductName("Headphones"); // Matched
-        item2.setUnitAmount(500); // Matched (previously 50000)
-        item2.setQuantity(2); // Matched
+        item2.setProductName("Headphones"); 
+        item2.setUnitAmount(500); 
+        item2.setQuantity(2); 
 
         List<LineItem> lineItems = new ArrayList<>();
         lineItems.add(item1);
@@ -42,9 +42,9 @@ public class TestDataBuilder {
         payment.setCurrency("USD");
         payment.setAmount(100);
         payment.setBrandName("MyShop");
-        payment.setLocale("en-US"); // Matched (en_US to en-US)
+        payment.setLocale("en-US"); 
         payment.setCountry("US");
-        payment.setMerchantTxnRef("TXN1234560001"); // Matched
+        payment.setMerchantTxnRef("TXN1234560001"); 
         payment.setPaymentMethod("APM");
         payment.setProvider("STRIPE");
         payment.setPaymentType("SALE");

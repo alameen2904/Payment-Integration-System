@@ -1,5 +1,7 @@
 package com.project.payments.service.impl.businessvalidators;
 
+import java.util.Random;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,7 @@ public class DuplicateTxnValidator implements BusinessValidator {
 
 
 		int pkId = repository.saveMerchantPaymentRequest(entity); 
+		
 
 		log.info("Repository returned primary key id: {}", pkId);
 

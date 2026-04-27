@@ -33,13 +33,10 @@ public class PaymentServiceImpl implements PaymentService {
     private final HmacSha256Service hmacSha256Service;
     private final JsonUtil jsonUtil;
     @Override
-    public String validateAndCreatePayment(PaymentRequest paymentRequest, String headerHmacSignature) {
+    public String validateAndCreatePayment(PaymentRequest paymentRequest) {
         
-    	log.info("validating and creating payment: {}|hmacSignature:{}", paymentRequest,headerHmacSignature);
-       String calculatedHmac = hmacSha256Service.isHmacSignatureValid(paymentRequest, headerHmacSignature);
-       log.error("HMAC signature mismatch. Calculated: {}, Received:{}", calculatedHmac, headerHmacSignature);
- 	  
-
+    	log.info("validating and creating payment: {}|hmacSignature:{}", paymentRequest);
+     
         String[] rules = validatorRuleNames.split(",");
         
         for (String rule : rules) {
