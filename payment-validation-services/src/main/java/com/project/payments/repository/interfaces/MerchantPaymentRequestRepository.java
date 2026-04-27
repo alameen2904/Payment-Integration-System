@@ -4,5 +4,6 @@ import com.project.payments.entity.MerchantPaymentRequestEntity;
 
 public interface MerchantPaymentRequestRepository {
    
-    int saveMerchantPaymentRequest(MerchantPaymentRequestEntity merchantPaymentRequestEntity);
+   public int saveMerchantPaymentRequest(MerchantPaymentRequestEntity merchantPaymentRequestEntity);
+public int countRequestsForUserInLastMinutes(String endUserId, int minutes);
 }

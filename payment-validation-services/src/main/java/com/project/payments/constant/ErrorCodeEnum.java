@@ -49,7 +49,8 @@ public enum ErrorCodeEnum {
 	DUPLICATE_TRANSACTION("10041", "Duplicate transaction detected with the same endUserID and merchantTxnReference"),
 	MISSING_HMAC("10042", "Missing HMAC signature in request header"),
 	HMAC_COMPUTATION_ERROR("10043", "Error computing HMAC-SHA256 signature"), 
-	INVALID_HMAC("10044", "Invalid HMAC signature in request header");
+	INVALID_HMAC("10044", "Invalid HMAC signature in request header"),
+	PAYMENT_ATTEMPT_THRESHOLD_EXCEEDED("10045", "Payment attempt threshold exceeded for user in the given time window");
 	
 
 

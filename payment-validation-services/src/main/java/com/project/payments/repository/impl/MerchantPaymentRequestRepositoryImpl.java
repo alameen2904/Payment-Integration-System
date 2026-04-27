@@ -1,5 +1,10 @@
 package com.project.payments.repository.impl;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Map;
+
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -70,4 +75,27 @@ public class MerchantPaymentRequestRepositoryImpl implements MerchantPaymentRequ
 
 			return -1;
 		}
-	}}
+	}
+
+	@Override
+	public int countRequestsForUserInLastMinutes(String endUserId, int minutes) {
+		Instant startTime = Instant.now().minus(minutes, ChronoUnit.MINUTES);
+
+		String sql = """
+				SELECT COUNT(*)
+				FROM merchant_payment_request
+				WHERE endUserID = :endUserId
+				AND creationDate >= :startTime
+				""";
+
+		Map<String, Object> params = Map.of(
+				"endUserId", endUserId,
+				"startTime", Timestamp.from(startTime)
+				);
+
+		Integer count = namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class);
+
+		return count == null ? 0 : count;
+	}
+
+}

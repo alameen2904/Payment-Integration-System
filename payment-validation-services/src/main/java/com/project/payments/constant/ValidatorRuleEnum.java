@@ -3,13 +3,16 @@ package com.project.payments.constant;
 import java.util.Optional;
 
 import com.project.payments.service.impl.businessvalidators.DuplicateTxnValidator;
+import com.project.payments.service.impl.businessvalidators.PaymentAttemptThresholdValidator;
 import com.project.payments.service.interfaces.BusinessValidator;
 
 public enum ValidatorRuleEnum {
 
 	DUPLICATE_TXN_RULE(
-			"DUPLICATE_TXN_RULE", DuplicateTxnValidator.class);
-
+    		"DUPLICATE_TXN_RULE", DuplicateTxnValidator.class),
+    PAYMENT_ATTEMPT_THRESHOLD_RULE(
+    		"PAYMENT_ATTEMPT_THRESHOLD_RULE", PaymentAttemptThresholdValidator.class)
+    ;
 	private final String ruleName;
 	private final Class<? extends BusinessValidator> validatorClass;
 

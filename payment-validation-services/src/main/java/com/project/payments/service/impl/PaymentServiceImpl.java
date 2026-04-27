@@ -1,20 +1,17 @@
 package com.project.payments.service.impl;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.project.payments.constant.ErrorCodeEnum;
 import com.project.payments.constant.ValidatorRuleEnum;
-import com.project.payments.exception.PaymentValidationException;
 import com.project.payments.pojo.PaymentRequest;
-import com.project.payments.service.HmacSha256Service;
 import com.project.payments.service.interfaces.BusinessValidator;
 import com.project.payments.service.interfaces.PaymentService;
-import com.project.payments.util.JsonUtil;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +27,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final ApplicationContext applicationContext;
 
-    private final HmacSha256Service hmacSha256Service;
-    private final JsonUtil jsonUtil;
-    @Override
+   private List<String> validatorRules;
+private Map<String, Map<String, String>> validatorRuleConfig;
+   @Override
     public String validateAndCreatePayment(PaymentRequest paymentRequest) {
         
     	log.info("validating and creating payment: {}|hmacSignature:{}", paymentRequest);
@@ -69,6 +66,5 @@ public class PaymentServiceImpl implements PaymentService {
 
     @PostConstruct
     public void init() {
-        log.info("PaymentServiceImpl ready. Active rules: {}", validatorRuleNames);
     }
 }
