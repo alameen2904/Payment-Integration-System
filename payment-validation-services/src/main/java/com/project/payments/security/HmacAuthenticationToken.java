@@ -3,6 +3,7 @@ package com.project.payments.security;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 
+
 public class HmacAuthenticationToken extends AbstractAuthenticationToken {
 
     private final String userName;

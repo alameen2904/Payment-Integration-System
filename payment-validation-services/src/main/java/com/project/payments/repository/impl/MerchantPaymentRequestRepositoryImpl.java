@@ -36,7 +36,7 @@ public class MerchantPaymentRequestRepositoryImpl implements MerchantPaymentRequ
 
 	@Override
 	public int saveMerchantPaymentRequest(MerchantPaymentRequestEntity merchantPaymentRequestEntity) {
-		log.info("Saving merchant payment request entity: {}", merchantPaymentRequestEntity);
+		log.info("Saving merchant payment request entity : {}", merchantPaymentRequestEntity);
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("endUserID", merchantPaymentRequestEntity.getEndUserID());
@@ -46,33 +46,22 @@ public class MerchantPaymentRequestRepositoryImpl implements MerchantPaymentRequ
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		try {
-
-			namedParameterJdbcTemplate.update(
-					INSERT_SQL,
-					params,
-					keyHolder,
-					new String[]{"id"}   
-					);
+			namedParameterJdbcTemplate.update(INSERT_SQL, params, keyHolder, new String[]{"id"});
 
 			Number generatedId = keyHolder.getKey();
-
 			if (generatedId != null) {
 				log.info("Merchant payment request inserted with id : {}", generatedId);
 				return generatedId.intValue();
 			}
 
-			log.error("Failed to retrieve generated id after inserting merchant payment request : {}",
-					merchantPaymentRequestEntity);
+			log.error("Failed to retrieve generated id for : {}", merchantPaymentRequestEntity);
 			throw new PaymentValidationException(
 					ErrorCodeEnum.FAILED_TO_SAVE_PAYMENT_REQUEST.getErrorCode(),
 					ErrorCodeEnum.FAILED_TO_SAVE_PAYMENT_REQUEST.getErrorMessage(),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 
 		} catch (DuplicateKeyException ex) {
-
-			log.error("Duplicate merchantTxnReference detected : {}",
-					merchantPaymentRequestEntity.getMerchantTxnReference(), ex);
-
+			log.error("Duplicate merchantTxnReference detected : {}", merchantPaymentRequestEntity.getMerchantTxnReference());
 			return -1;
 		}
 	}
@@ -91,11 +80,14 @@ public class MerchantPaymentRequestRepositoryImpl implements MerchantPaymentRequ
 		Map<String, Object> params = Map.of(
 				"endUserId", endUserId,
 				"startTime", Timestamp.from(startTime)
-				);
+		);
 
+	
 		Integer count = namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class);
-
-		return count == null ? 0 : count;
+		
+		int result = (count != null) ? count : 0;
+		log.info("Found {} previous requests for user {} in last {} minutes", result, endUserId, minutes);
+		
+		return result;
 	}
-
 }

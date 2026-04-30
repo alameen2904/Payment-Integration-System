@@ -16,7 +16,7 @@ public class WrappedRequest extends HttpServletRequestWrapper {
 	private byte[] buffer;
 	public WrappedRequest(HttpServletRequest req) throws IOException {
 		super(req);
-		
+		// Read InputStream and store its content in a buffer.
 		InputStream is = req.getInputStream();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buf = new byte[1024];

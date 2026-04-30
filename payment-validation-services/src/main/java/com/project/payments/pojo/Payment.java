@@ -14,7 +14,10 @@ import lombok.Data;
 public class Payment {
 
     @NotBlank(message = "CURRENCY_BLANK")
-    @Pattern(regexp = "^[A-Z]{3}$", message = "CURRENCY_INVALID")
+    @Pattern(
+        regexp = "^[A-Z]{3}$",
+        message = "CURRENCY_INVALID"
+    )
     private String currency;
 
     @NotNull(message = "UNIT_AMOUNT_NULL")
@@ -26,11 +29,17 @@ public class Payment {
     private String brandName;
 
     @NotBlank(message = "LOCALE_BLANK")
-    @Pattern(regexp = "^[a-z]{2}-[A-Z]{2}$", message = "LOCALE_INVALID")
+    @Pattern(
+        regexp = "^[a-z]{2}-[A-Z]{2}$",
+        message = "LOCALE_INVALID"
+    )
     private String locale;
 
     @NotBlank(message = "COUNTRY_BLANK")
-    @Pattern(regexp = "^[A-Z]{2}$", message = "COUNTRY_INVALID")
+    @Pattern(
+        regexp = "^[A-Z]{2}$",
+        message = "COUNTRY_INVALID"
+    )
     private String country;
 
     @NotBlank(message = "MERCHANT_TXN_REF_BLANK")
@@ -47,14 +56,21 @@ public class Payment {
     private String paymentType;
 
     @NotBlank(message = "SUCCESS_URL_BLANK")
-    @Pattern(regexp = "^(http|https)://.*$", message = "SUCCESS_URL_INVALID")
+    @Pattern(
+        regexp = "^(http|https)://.*$",
+        message = "SUCCESS_URL_INVALID"
+    )
     private String successUrl;
 
     @NotBlank(message = "CANCEL_URL_BLANK")
-    @Pattern(regexp = "^(http|https)://.*$", message = "CANCEL_URL_INVALID")
+    @Pattern(
+        regexp = "^(http|https)://.*$",
+        message = "CANCEL_URL_INVALID"
+    )
     private String cancelUrl;
 
     @NotEmpty(message = "LINE_ITEMS_EMPTY")
     @Valid
     private List<LineItem> lineItems;
+
 }

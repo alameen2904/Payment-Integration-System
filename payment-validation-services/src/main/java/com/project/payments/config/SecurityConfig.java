@@ -21,27 +21,38 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
+	
 	private final HmacSha256Service hmacSha256Service;
-	private final JsonUtil jsonUtil; 
+	private final JsonUtil jsonUtil;
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
 		http
+
 		.csrf(csrf -> csrf.disable())
-		
-		.authorizeHttpRequests(authorize -> authorize
-				.anyRequest().permitAll()
+
+		.authorizeHttpRequests((authorize) -> authorize
+				.anyRequest().permitAll()  
 				)
-		/*.addFilterBefore(new ExceptionHandlerFilter( jsonUtil), 
-				DisableEncodeUrlFilter.class)             		
+		/* TODO, below is commonly only temporary for testing. 
+		 * DONT COMMIT 
+		 * 
+		.authorizeHttpRequests((authorize) -> authorize
+				.anyRequest().authenticated()  
+				)  
+		
+		.addFilterBefore(new ExceptionHandlerFilter(jsonUtil), 
+				DisableEncodeUrlFilter.class)
+		
 		.addFilterAfter(new HmacSha256Filter(hmacSha256Service, jsonUtil), 
 				LogoutFilter.class) 
 		*/
 		.sessionManagement(session -> session
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				);
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+		;
 
-		return http.build();
+		return http.build(); 
 	}
+
 }

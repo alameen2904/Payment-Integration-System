@@ -26,6 +26,9 @@ public class User {
     private String email;
 
     @NotBlank(message = "MOBILE_PHONE_BLANK")
-    @Pattern(regexp = "^\\+?[0-9]{8,15}$", message = "MOBILE_PHONE_INVALID")
+    @Pattern(
+        regexp = "^\\+?[0-9]{8,15}$",
+        message = "MOBILE_PHONE_INVALID"
+    )
     private String mobilePhone;
 }

@@ -50,7 +50,9 @@ public enum ErrorCodeEnum {
 	MISSING_HMAC("10042", "Missing HMAC signature in request header"),
 	HMAC_COMPUTATION_ERROR("10043", "Error computing HMAC-SHA256 signature"), 
 	INVALID_HMAC("10044", "Invalid HMAC signature in request header"),
-	PAYMENT_ATTEMPT_THRESHOLD_EXCEEDED("10045", "Payment attempt threshold exceeded for user in the given time window");
+	PAYMENT_ATTEMPT_THRESHOLD_EXCEEDED("10045", "Payment attempt threshold exceeded for user in the given time window"),
+	NO_VALIDATION_RULES_CONFIGURED("10046", "No validation rules configured in the system"), 
+	INVALID_JSON("10047", "Invalid JSON in request body");
 	
 
 

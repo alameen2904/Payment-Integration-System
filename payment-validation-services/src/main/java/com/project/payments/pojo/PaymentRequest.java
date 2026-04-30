@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class PaymentRequest {
-    
+
     @NotNull(message = "USER_NULL")
     @Valid
     private User user;
@@ -14,4 +14,5 @@ public class PaymentRequest {
     @NotNull(message = "PAYMENT_NULL")
     @Valid
     private Payment payment;
+
 }
