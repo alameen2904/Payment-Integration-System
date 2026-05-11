@@ -1,14 +1,15 @@
 package com.project.payments;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication; 
 
-@SpringBootApplication(exclude= {UserDetailsServiceAutoConfiguration.class})
+@SpringBootApplication
 public class PaymentValidationServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PaymentValidationServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PaymentValidationServiceApplication.class, args);
+    }
 
+    
+    
 }

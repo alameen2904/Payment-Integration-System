@@ -52,8 +52,9 @@ public enum ErrorCodeEnum {
 	INVALID_HMAC("10044", "Invalid HMAC signature in request header"),
 	PAYMENT_ATTEMPT_THRESHOLD_EXCEEDED("10045", "Payment attempt threshold exceeded for user in the given time window"),
 	NO_VALIDATION_RULES_CONFIGURED("10046", "No validation rules configured in the system"), 
-	INVALID_JSON("10047", "Invalid JSON in request body");
-	
+	INVALID_JSON("10047", "Invalid JSON in request body"), 
+	INVALID_STRIPE_PROVIDER_RESPONSE("10048", "Invalid response received from Stripe provider"),
+	ERROR_CONNECTING_TO_EXTERNAL_SERVICE("10049", "Error connecting to external payment service provider");
 
 
 	private final String errorCode;
