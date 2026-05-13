@@ -19,9 +19,9 @@ import org.springframework.beans.factory.annotation.Value;
 @RequiredArgsConstructor
 public class StripeProviderHelper {
 
-    private final ObjectMapper objectMapper; // Spring will provide this
+    private final ObjectMapper objectMapper;
 
-    @Value("${stripe.provider.url:http://localhost:8082/v1/stripe/pay}")
+    @Value("${stripe.provider.createPaymentUrl}")
     private String stripeProviderUrl;
 
     /**
@@ -30,10 +30,19 @@ public class StripeProviderHelper {
     public HttpRequest createHttpRequest(PaymentRequest paymentRequest) {
         log.info("Preparing HttpRequest for Stripe provider URL: {}", stripeProviderUrl);
         
+        // --- DEBUG LOGGING START ---
+        try {
+            String jsonPayload = objectMapper.writeValueAsString(paymentRequest);
+            log.info("FINAL JSON payload being sent to Stripe Provider: {}", jsonPayload);
+        } catch (Exception e) {
+            log.error("Failed to log JSON payload: {}", e.getMessage());
+        }
+        // --- DEBUG LOGGING END ---
+        
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.setHttpMethod(HttpMethod.POST);
         httpRequest.setUrl(stripeProviderUrl);
-        httpRequest.setRequestData(paymentRequest);
+        httpRequest.setRequestData(paymentRequest.getPayment());
         httpRequest.setHttpHeaders(new HttpHeaders());
         
         return httpRequest;
@@ -50,6 +59,8 @@ public class StripeProviderHelper {
 
         try {
             log.info("Parsing String response to SPPaymentResponse...");
+            // If the response contains an error (like 400 Bad Request), this might return null 
+            // if the fields don't match SPPaymentResponse.
             return objectMapper.readValue(httpResponse.getBody(), SPPaymentResponse.class);
         } catch (Exception e) {
             log.error("Error while parsing Stripe response: {}", e.getMessage());
