@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+	https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.2</version>
+		<relativePath />
+	</parent>
+
+	<groupId>com.project.payments</groupId>
+	<artifactId>eureka-service-registry</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>eureka-service-registry</name>
+	<description>Eureka Service Registry for Payment Integration System</description>
+
+	<properties>
+
+		<java.version>17</java.version>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<spring.application.name>eureka-service-registry</spring.application.name>
+
+		<spring-cloud.version>2024.0.0</spring-cloud.version>
+
+	</properties>
+
+	<profiles>
+
+		<profile>
+			<id>local</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<properties>
+
+				<spring.profiles.active>local</spring.profiles.active>
+
+				<logging.path>
+					C:\Users\Al Ameen\Desktop\repository\Payment-Integration-System\eureka-service-registry
+				</logging.path>
+
+			</properties>
+
+		</profile>
+
+		<profile>
+			<id>dev</id>
+
+			<properties>
+
+				<spring.profiles.active>dev</spring.profiles.active>
+
+				<logging.path>
+					/var/lib/tomcat/logs/cpt/eureka-service-registry
+				</logging.path>
+
+			</properties>
+
+		</profile>
+
+		<profile>
+			<id>prod</id>
+
+			<properties>
+
+				<spring.profiles.active>prod</spring.profiles.active>
+
+				<logging.path>
+					/var/lib/tomcat/logs/cpt/eureka-service-registry
+				</logging.path>
+
+			</properties>
+
+		</profile>
+
+	</profiles>
+
+	<dependencyManagement>
+
+		<dependencies>
+
+			<dependency>
+
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+
+				<type>pom</type>
+				<scope>import</scope>
+
+			</dependency>
+
+		</dependencies>
+
+	</dependencyManagement>
+
+	<dependencies>
+
+		<!-- Spring Boot Web -->
+
+		<dependency>
+
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+
+		</dependency>
+
+		<!-- Eureka Server -->
+
+		<dependency>
+
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+
+		</dependency>
+
+		<!-- DevTools -->
+
+		<dependency>
+
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+
+			<scope>runtime</scope>
+			<optional>true</optional>
+
+		</dependency>
+
+		<!-- Lombok -->
+
+		<dependency>
+
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+
+			<optional>true</optional>
+
+		</dependency>
+
+		<!-- Testing -->
+
+		<dependency>
+
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+
+			<scope>test</scope>
+
+		</dependency>
+
+	</dependencies>
+
+	<build>
+
+		<finalName>eureka-service-registry</finalName>
+
+		<resources>
+
+			<resource>
+
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+
+			</resource>
+
+		</resources>
+
+		<plugins>
+
+			<!-- Spring Boot Plugin -->
+
+			<plugin>
+
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+
+			</plugin>
+
+			<!-- Maven Compiler Plugin -->
+
+			<plugin>
+
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+
+				<configuration>
+
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+
+				</configuration>
+
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>
