@@ -14,7 +14,9 @@ public class JsonUtil {
 
     private final ObjectMapper objectMapper;
 
-   
+    /**
+     * Convert JSON string to Java object of provided type. Returns null on error.
+     */
     public <T> T convertJsonToObject(String json, Class<T> clazz) {
         if (json == null) {
             log.debug("convertJsonToObject called with null json");
@@ -32,7 +34,9 @@ public class JsonUtil {
         }
     }
 
-    
+    /**
+     * Convert Java object to JSON string. Returns null on error.
+     */
     public String convertObjectToJson(Object obj) {
         if (obj == null) {
             log.debug("convertObjectToJson called with null object");

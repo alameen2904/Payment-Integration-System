@@ -10,6 +10,7 @@ import org.springframework.web.client.RestClient;
 import com.project.payments.constant.ErrorCodeEnum;
 import com.project.payments.exception.StripeProviderException;
 
+
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,12 +41,12 @@ public class HttpServiceEngine {
 
 			return httpResponse;
 		} catch (HttpClientErrorException | HttpServerErrorException ex) {
-			
+			// means got valid error response from stripe. 4xx or 5xx
 			
 			log.error("HTTP error occurred while making HTTP call: Status code: {}, Response body: {}", 
 					ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
 			
-			
+			// if we get 503 or 504, then throw StripeProviderException
 			if (ex.getStatusCode() == HttpStatus.SERVICE_UNAVAILABLE || 
 					ex.getStatusCode() == HttpStatus.GATEWAY_TIMEOUT) {
 				log.error("Stripe service is unavailable. Status code: {}, Response body: {}", 
@@ -58,14 +59,14 @@ public class HttpServiceEngine {
 			}
 			
 			
-			
+			// prepare ResponseEntity with error details from the exception and return to the caller.
 			ResponseEntity<String> errorResponse = ResponseEntity
 					.status(ex.getStatusCode())
 					.body(ex.getResponseBodyAsString());
 			
-			return errorResponse; 
+			return errorResponse; // Let the exception propagate to be handled by GlobalExceptionHandler
 		} catch (Exception ex) {
-			
+			// when you are not able to get http response from stripe. Network error, timeout, DNS failure, etc.
 			
 			log.error("Error occurred while making HTTP call: ", ex);
 			
