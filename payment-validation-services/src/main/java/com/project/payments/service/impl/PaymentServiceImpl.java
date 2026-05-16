@@ -78,9 +78,14 @@ public class PaymentServiceImpl implements PaymentService {
 
         // --- Step 3: Map to Final Response ---
         PaymentResponse finalResponse = new PaymentResponse();
+
+        finalResponse.setStripeSessionId(stripeResponse.getStripeSessionId());
         finalResponse.setHostedPageUrl(stripeResponse.getHostedPageUrl());
-        
-        log.info("Final PaymentResponse prepared with URL: {}", finalResponse.getHostedPageUrl());
+
+        log.info("Final PaymentResponse prepared. SessionId: {}, URL: {}",
+              finalResponse.getStripeSessionId(),
+              finalResponse.getHostedPageUrl());
+
         return finalResponse;
     }
 }
