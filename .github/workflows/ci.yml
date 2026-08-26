@@ -23,4 +23,6 @@ jobs:
 
       - name: Build and test payment-validation-services
         working-directory: payment-validation-services
-        run: ./mvnw -B clean verify
+        run: |
+          chmod +x mvnw
+          ./mvnw -B clean verify
