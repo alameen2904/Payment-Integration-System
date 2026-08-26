@@ -1,7 +1,5 @@
 package com.project.payments.service.impl.businessvalidators;
 
-import java.util.Random;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +32,8 @@ public class DuplicateTxnValidator implements BusinessValidator {
 		entity.setMerchantTxnReference(paymentRequest.getPayment().getMerchantTxnRef());
 		entity.setTransactionRequest(jsonUtil.convertObjectToJson(paymentRequest));
 		
-		//int pkId = new Random().nextInt(100);
-		int pkId = repository.saveMerchantPaymentRequest(entity); //TODO for testing spring security, we commented temporary. 
-		//should not be commit to feature branch aswell..
+		
+		int pkId = repository.saveMerchantPaymentRequest(entity); 
 		
 		 
 		log.info("Repository returned primary key id: {}", pkId);
