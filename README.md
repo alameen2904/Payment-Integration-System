@@ -1,4 +1,5 @@
 # Payment Integration System
+![CI](https://github.com/alameen2904/Payment-Integration-System/actions/workflows/ci.yml/badge.svg)
 
 A Spring Boot microservices system for processing card payments through Stripe, built around **transaction idempotency**, **configurable fraud/abuse rules**, and **request-signature authentication** — the core reliability and security concerns of any real payment flow.
 
